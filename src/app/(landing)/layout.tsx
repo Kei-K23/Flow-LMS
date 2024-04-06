@@ -6,7 +6,7 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="min-h-screen flex flex-col">
       <Header />
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 flex justify-center items-center">{children}</div>
       <Footer />
     </main>
   );
