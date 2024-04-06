@@ -14,7 +14,7 @@ import React from "react";
 
 const Header = () => {
   return (
-    <header className="sticky top-0 w-full border-b border-b-slate-200 h-14 ">
+    <header className="sticky top-0 w-full border-b border-b-slate-200 h-14 z-50">
       <nav className="px-5 lg:max-w-screen-lg mx-auto h-full flex items-center justify-between">
         <Link href={"/"} className="flex items-center gap-3">
           <Image src={"/mascot.svg"} alt="icon" width={40} height={40} />
