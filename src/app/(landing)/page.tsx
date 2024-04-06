@@ -20,7 +20,7 @@ const LandingPage = () => {
         <Image src={"/hero.svg"} alt="hero image" fill />
       </div>
       <div className="flex flex-col items-center justify-center gap-y-5">
-        <p className="text-xl lg:text-2xl">
+        <p className="text-xl lg:text-2xl text-center">
           Learn, Practice and master new Language with{" "}
           <span className="font-bold text-emerald-500">Flow</span> 🚀.
         </p>
@@ -33,7 +33,10 @@ const LandingPage = () => {
           <SignedIn>
             <Link
               href={"/learn"}
-              className={cn(buttonVariants({ variant: "primary" }), "text-lg")}
+              className={cn(
+                buttonVariants({ variant: "primary" }),
+                "text-base lg:text-lg"
+              )}
             >
               Continue Learning
             </Link>
@@ -44,7 +47,7 @@ const LandingPage = () => {
               afterSignInUrl="/learn"
               afterSignUpUrl="/learn"
             >
-              <Button variant={"primary"} className="text-lg">
+              <Button variant={"primary"} className="text-base lg:text-lg">
                 <LogInIcon className="w-5 h-5 mr-2" /> Login
               </Button>
             </SignInButton>
