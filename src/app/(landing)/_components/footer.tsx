@@ -8,7 +8,6 @@ const Footer = () => {
       name: "Croatian",
       flag: "/hr.svg",
     },
-
     {
       name: "Italian",
       flag: "/it.svg",
