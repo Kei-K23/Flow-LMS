@@ -8,7 +8,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       <MobileHeader />
       <Sidebar className="hidden lg:flex" />
       <main className="lg:pl-[256px] h-full">
-        <div className=" h-full bg-red-300">{children}</div>
+        <div className="max-w-[1050px] mx-auto h-full ">{children}</div>
       </main>
     </>
   );

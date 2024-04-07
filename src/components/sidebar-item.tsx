@@ -30,7 +30,7 @@ const SidebarItem = ({ label, href, icon }: SidebarItemProps) => {
       )}
     >
       <Image src={icon} alt={label} width={35} height={35} className="mr-4" />
-      <p className="text-base">{label}</p>
+      <p>{label}</p>
     </Link>
   );
 };
