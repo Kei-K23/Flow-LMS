@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { db } from ".";
-import { courses, units, userProgress } from "./schema";
+import { challengeProgress, courses, units, userProgress } from "./schema";
 import { auth } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
 
@@ -15,12 +15,14 @@ export const getCourseById = cache(async (id: number) => {
 });
 
 export const getUnits = cache(async () => {
+    const { userId } = auth()
     const userProgress = await getUserProgress();
 
-    if (!userProgress?.activeCourse || !userProgress.activeCourseId) {
+    if (!userProgress?.activeCourse || !userProgress.activeCourseId || !userId) {
         return [];
     }
 
+    // TODO: Need to check orderby for lessons
     const data = await db.query.units.findMany({
         where: eq(units.courseId, userProgress.activeCourseId),
         with: {
@@ -28,7 +30,9 @@ export const getUnits = cache(async () => {
                 with: {
                     challenges: {
                         with: {
-                            challengeProgress: true,
+                            challengeProgress: {
+                                where: eq(challengeProgress.userId, userId)
+                            },
                         }
                     }
                 }
@@ -37,16 +41,15 @@ export const getUnits = cache(async () => {
     })
 
     const normalizedData = data.map((unit) => {
-        const lessonWithCompletedStatus = unit.lessons.map(lesson => {
+        const lessonsWithCompletedStatus = unit.lessons.map(lesson => {
             const allCompletedChallenges = lesson.challenges.every((challenge) => {
                 return challenge.challengeProgress && challenge.challengeProgress.length > 0 && challenge.challengeProgress.every((progress) => progress.completed);
             })
 
             return { ...lesson, completed: allCompletedChallenges }
         })
-        return { ...unit, lessons: lessonWithCompletedStatus };
+        return { ...unit, lessons: lessonsWithCompletedStatus };
     })
-
     return normalizedData;
 });
 
