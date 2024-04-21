@@ -18,7 +18,7 @@ const UnitBanner = ({ title, description }: UnitBannerProps) => {
       <Link href={"/lessons"}>
         <Button
           variant={"secondary"}
-          className="hidden xl:flex border-2 border-b-4 active:border-b-2"
+          className="hidden xl:flex border-neutral-800 border-2 border-b-4 gap-2 p-3 py-5 active:border-b-2 hover:border-b-2"
         >
           <NotebookIcon />
           continue
