@@ -4,6 +4,7 @@ import React, { useTransition } from "react";
 import Card from "./card";
 import { upsertUserProgress } from "@/actions/user-progress";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 type ListProps = {
   courses: (typeof courses.$inferSelect)[];
@@ -22,7 +23,7 @@ const List = ({ courses, activeCourseId }: ListProps) => {
     }
 
     startTransition(() => {
-      upsertUserProgress(id);
+      upsertUserProgress(id).catch(() => toast.error("Something went wrong"));
     });
   };
 
