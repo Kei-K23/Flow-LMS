@@ -9,6 +9,9 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        "blue-sky":
+          "bg-blue-500 text-white hover:bg-blue-600/85 active:bg-blue-600/95",
+        exit: "text-red-500 hover:bg-accent",
         locked:
           "bg-neutral-200 text-primary-foreground hover:bg-neutral-200/90 border-neutral-400 border-b-4 active:border-b-0",
         default: "bg-primary text-primary-foreground hover:bg-primary/90",

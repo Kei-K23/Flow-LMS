@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+
 import { useRouter } from "next/navigation";
 import { useExistModal } from "@/store/use-exit-modal";
 import Image from "next/image";
@@ -47,8 +48,12 @@ const ExitModal = () => {
         </DialogHeader>
         <DialogFooter className="mb-4">
           <div className="flex flex-col gap-y-4 w-full">
-            <Button onClick={close}>Keep learning</Button>
-            <Button onClick={() => router.push("/learn")}>Exit</Button>
+            <Button variant={"blue-sky"} onClick={close}>
+              Keep learning
+            </Button>
+            <Button variant={"exit"} onClick={() => router.push("/learn")}>
+              Exit
+            </Button>
           </div>
         </DialogFooter>
       </DialogContent>
