@@ -6,7 +6,10 @@ import Header from "./header";
 import QuestionBubble from "./question-bubble";
 import Challenge from "./challenge";
 import Footer from "./footer";
-import { upsertChallengeProgress } from "@/actions/challenge-progress";
+import {
+  reduceHeart,
+  upsertChallengeProgress,
+} from "@/actions/challenge-progress";
 import { toast } from "sonner";
 
 type QuizProps = {
@@ -96,7 +99,22 @@ const Quiz = ({
           .catch(() => toast.error("Something went wrong. Please try again!"));
       });
     } else {
-      console.log("incorrect option");
+      startTransition(() => {
+        reduceHeart(challenge.id)
+          .then((res) => {
+            if (res?.error === "hearts") {
+              console.log("No enough hearts");
+              return;
+            }
+
+            setStatus("incorrect");
+
+            if (!res?.error) {
+              setHearts((prev) => Math.max(prev - 1, 0));
+            }
+          })
+          .catch(() => toast.error("Something went wrong. Please try again!"));
+      });
     }
   };
   return (
