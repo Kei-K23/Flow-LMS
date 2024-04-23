@@ -22,6 +22,8 @@ const buttonVariants = cva(
         secondary: "bg-green-500 text-white hover:bg-green-500/80",
         primary:
           "bg-emerald-500 text-white hover:bg-emerald-600/85 active:bg-emerald-600/95",
+        danger:
+          "bg-rose-500 text-white hover:bg-rose-600/85 active:bg-rose-600/95",
         active:
           "border-2 border-emerald-500 text-emerald-500 font-bold bg-emerald-100",
         ghost: "hover:bg-accent hover:text-accent-foreground",
