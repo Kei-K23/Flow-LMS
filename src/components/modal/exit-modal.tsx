@@ -51,7 +51,13 @@ const ExitModal = () => {
             <Button variant={"blue-sky"} onClick={close}>
               Keep learning
             </Button>
-            <Button variant={"exit"} onClick={() => router.push("/learn")}>
+            <Button
+              variant={"exit"}
+              onClick={() => {
+                router.push("/learn");
+                close();
+              }}
+            >
               Exit
             </Button>
           </div>

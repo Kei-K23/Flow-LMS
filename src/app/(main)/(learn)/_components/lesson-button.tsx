@@ -79,6 +79,7 @@ const LessonButton = ({
             >
               <Button
                 size="rounded"
+                className="border-b-4 border-green-600 active:border-b-2"
                 variant={isLocked ? "locked" : "secondary"}
               >
                 <Icon
