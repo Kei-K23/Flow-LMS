@@ -45,11 +45,39 @@ const Quiz = ({
       ? "Select the correct meaning"
       : challenge.question;
 
+  const onNext = () => {
+    setActiveIndex((current) => current + 1);
+  };
+
   const onSelect = (id: number) => {
     if (status !== "none") return;
     setSelectedOption(id);
   };
 
+  const onContinue = () => {
+    if (!selectedOption) return;
+
+    if (status === "incorrect") {
+      setStatus("none");
+      setSelectedOption(undefined);
+      return;
+    }
+
+    if (status === "correct") {
+      onNext();
+      setStatus("none");
+      setSelectedOption(undefined);
+      return;
+    }
+
+    const correctOption = options.find((option) => option.correct);
+
+    if (correctOption && correctOption.id === selectedOption) {
+      console.log("correct option");
+    } else {
+      console.log("incorrect option");
+    }
+  };
   return (
     <>
       <Header
@@ -80,7 +108,7 @@ const Quiz = ({
         </div>
       </div>
       <Footer
-        onCheck={() => {}}
+        onCheck={onContinue}
         status={status}
         disabled={!selectedOption}
         lessonId={initialLessonId}
