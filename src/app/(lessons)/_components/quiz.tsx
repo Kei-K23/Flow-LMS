@@ -1,11 +1,13 @@
 "use client";
 
 import { challengeOptions, challenges } from "@/db/schema";
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import Header from "./header";
 import QuestionBubble from "./question-bubble";
 import Challenge from "./challenge";
 import Footer from "./footer";
+import { upsertChallengeProgress } from "@/actions/challenge-progress";
+import { toast } from "sonner";
 
 type QuizProps = {
   initialPercentage: number;
@@ -25,6 +27,7 @@ const Quiz = ({
   initialPercentage,
   userSubscriptions,
 }: QuizProps) => {
+  const [pending, startTransition] = useTransition();
   const [hearts, setHearts] = useState(initialHeart);
   const [percentage, setPercentage] = useState(initialPercentage);
   const [challenges] = useState(initialLessonChallenges);
@@ -72,8 +75,26 @@ const Quiz = ({
 
     const correctOption = options.find((option) => option.correct);
 
-    if (correctOption && correctOption.id === selectedOption) {
-      console.log("correct option");
+    if (!correctOption) return;
+
+    if (correctOption.id === selectedOption) {
+      startTransition(() => {
+        upsertChallengeProgress(challenge.id)
+          .then((res) => {
+            if (res?.error === "hearts") {
+              console.log("No enough hearts");
+              return;
+            }
+
+            setStatus("correct");
+            setPercentage((prev) => prev + 100 / challenges.length);
+
+            if (initialPercentage === 100) {
+              setHearts((prev) => Math.min(prev + 1, 5));
+            }
+          })
+          .catch(() => toast.error("Something went wrong. Please try again!"));
+      });
     } else {
       console.log("incorrect option");
     }
@@ -100,7 +121,7 @@ const Quiz = ({
                 onSelect={onSelect}
                 status={status}
                 selectedOption={selectedOption}
-                disabled={false}
+                disabled={pending}
                 type={challenge.type}
               />
             </div>
@@ -110,7 +131,7 @@ const Quiz = ({
       <Footer
         onCheck={onContinue}
         status={status}
-        disabled={!selectedOption}
+        disabled={pending || !selectedOption}
         lessonId={initialLessonId}
       />
     </>
