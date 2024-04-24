@@ -13,6 +13,7 @@ import {
 import { toast } from "sonner";
 import { useAudio } from "react-use";
 import FinishScreen from "./finish-screen";
+import { useNoEnoughHeartsModal } from "@/store/not-enough-hearts-modal";
 
 type QuizProps = {
   initialPercentage: number;
@@ -41,6 +42,7 @@ const Quiz = ({
   const [pending, startTransition] = useTransition();
   const [hearts, setHearts] = useState(initialHeart);
   const [percentage, setPercentage] = useState(initialPercentage);
+  const [lessonId] = useState(initialPercentage);
   const [challenges] = useState(initialLessonChallenges);
   const [activeIndex, setActiveIndex] = useState(() => {
     const uncompletedIndex = challenges.findIndex((c) => !c.completed);
@@ -50,12 +52,19 @@ const Quiz = ({
   const [status, setStatus] = useState<"none" | "correct" | "incorrect">(
     "none"
   );
+  const { open: OpenNoEnoughHeartsModal } = useNoEnoughHeartsModal();
 
   const challenge = challenges[activeIndex];
   const options = challenge?.challengeOptions ?? [];
 
-  if (true || !challenge) {
-    return <FinishScreen challenges={challenges} hearts={hearts} />;
+  if (!challenge) {
+    return (
+      <FinishScreen
+        challenges={challenges}
+        hearts={hearts}
+        lessonId={lessonId}
+      />
+    );
   }
 
   const title =
@@ -97,7 +106,7 @@ const Quiz = ({
         upsertChallengeProgress(challenge.id)
           .then((res) => {
             if (res?.error === "hearts") {
-              console.log("No enough hearts");
+              OpenNoEnoughHeartsModal();
               return;
             }
 
@@ -116,7 +125,7 @@ const Quiz = ({
         reduceHeart(challenge.id)
           .then((res) => {
             if (res?.error === "hearts") {
-              console.log("No enough hearts");
+              OpenNoEnoughHeartsModal();
               return;
             }
             incorrectControl.play();
