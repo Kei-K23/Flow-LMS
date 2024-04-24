@@ -25,6 +25,12 @@ const Items = ({ hearts, points, hasActiveSubscription }: ItemsProps) => {
     });
   };
 
+  const onUpgrade = () => {
+    if (pending || hasActiveSubscription) return;
+
+    startTransition(() => {});
+  };
+
   return (
     <ul className="w-full">
       <div className="flex items-center w-full p-4 gap-x-4 border-t-2">
@@ -36,7 +42,7 @@ const Items = ({ hearts, points, hasActiveSubscription }: ItemsProps) => {
         </div>
         <Button
           onClick={onRefillHeart}
-          disabled={hearts === 5 || points < POINT_TO_FILL}
+          disabled={pending || hearts === 5 || points < POINT_TO_FILL}
         >
           {hearts === 5 ? (
             "full"
@@ -46,6 +52,22 @@ const Items = ({ hearts, points, hasActiveSubscription }: ItemsProps) => {
               <p>{POINT_TO_FILL}</p>
             </div>
           )}
+        </Button>
+      </div>
+      <div className="flex items-center w-full p-4 gap-x-4 border-t-2">
+        <Image
+          src={"/unlimited.svg"}
+          alt="unlimited heart"
+          height={60}
+          width={60}
+        />
+        <div className="flex-1">
+          <p className="text-neutral-700 text-base lg:text-xl font-bold">
+            Unlimited hearts
+          </p>
+        </div>
+        <Button onClick={onUpgrade} disabled={pending || hasActiveSubscription}>
+          {hasActiveSubscription ? "active" : "upgrade"}
         </Button>
       </div>
     </ul>
