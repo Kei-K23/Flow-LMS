@@ -33,7 +33,7 @@ const FinishScreen = ({ challenges, hearts }: FinishScreenProps) => {
       </h1>
       <div className="flex items-center gap-x-4 w-full">
         <ResultCard variant="points" values={challenges.length * 10} />
-        <ResultCard variant="points" values={hearts} />
+        <ResultCard variant="hearts" values={hearts} />
       </div>
     </div>
   );
