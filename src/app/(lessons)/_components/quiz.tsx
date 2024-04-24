@@ -11,6 +11,8 @@ import {
   upsertChallengeProgress,
 } from "@/actions/challenge-progress";
 import { toast } from "sonner";
+import { useAudio } from "react-use";
+import FinishScreen from "./finish-screen";
 
 type QuizProps = {
   initialPercentage: number;
@@ -30,6 +32,12 @@ const Quiz = ({
   initialPercentage,
   userSubscriptions,
 }: QuizProps) => {
+  const [correctAudio, _correct, correctControl] = useAudio({
+    src: "/correct.wav",
+  });
+  const [incorrectAudio, _incorrect, incorrectControl] = useAudio({
+    src: "incorrect.wav",
+  });
   const [pending, startTransition] = useTransition();
   const [hearts, setHearts] = useState(initialHeart);
   const [percentage, setPercentage] = useState(initialPercentage);
@@ -45,6 +53,10 @@ const Quiz = ({
 
   const challenge = challenges[activeIndex];
   const options = challenge?.challengeOptions ?? [];
+
+  if (true || !challenge) {
+    return <FinishScreen challenges={challenges} hearts={hearts} />;
+  }
 
   const title =
     challenge.type === "ASSIST"
@@ -89,6 +101,7 @@ const Quiz = ({
               return;
             }
 
+            correctControl.play();
             setStatus("correct");
             setPercentage((prev) => prev + 100 / challenges.length);
 
@@ -106,9 +119,8 @@ const Quiz = ({
               console.log("No enough hearts");
               return;
             }
-
+            incorrectControl.play();
             setStatus("incorrect");
-
             if (!res?.error) {
               setHearts((prev) => Math.max(prev - 1, 0));
             }
@@ -119,6 +131,8 @@ const Quiz = ({
   };
   return (
     <>
+      {correctAudio}
+      {incorrectAudio}
       <Header
         hearts={hearts}
         percentage={percentage}
