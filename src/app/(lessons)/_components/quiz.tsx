@@ -11,9 +11,10 @@ import {
   upsertChallengeProgress,
 } from "@/actions/challenge-progress";
 import { toast } from "sonner";
-import { useAudio } from "react-use";
+import { useAudio, useMount } from "react-use";
 import FinishScreen from "./finish-screen";
-import { useNoEnoughHeartsModal } from "@/store/not-enough-hearts-modal";
+import { useNoEnoughHeartsModal } from "@/store/use-not-enough-hearts-modal";
+import { usePracticeModal } from "@/store/use-practice-modal";
 
 type QuizProps = {
   initialPercentage: number;
@@ -41,7 +42,9 @@ const Quiz = ({
   });
   const [pending, startTransition] = useTransition();
   const [hearts, setHearts] = useState(initialHeart);
-  const [percentage, setPercentage] = useState(initialPercentage);
+  const [percentage, setPercentage] = useState(() =>
+    initialPercentage === 100 ? 0 : initialPercentage
+  );
   const [lessonId] = useState(initialPercentage);
   const [challenges] = useState(initialLessonChallenges);
   const [activeIndex, setActiveIndex] = useState(() => {
@@ -53,6 +56,13 @@ const Quiz = ({
     "none"
   );
   const { open: OpenNoEnoughHeartsModal } = useNoEnoughHeartsModal();
+  const { open: OpenPracticeModal } = usePracticeModal();
+
+  useMount(() => {
+    if (initialPercentage === 100) {
+      OpenPracticeModal();
+    }
+  });
 
   const challenge = challenges[activeIndex];
   const options = challenge?.challengeOptions ?? [];
@@ -138,6 +148,7 @@ const Quiz = ({
       });
     }
   };
+
   return (
     <>
       {correctAudio}

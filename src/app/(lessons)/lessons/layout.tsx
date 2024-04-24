@@ -1,5 +1,6 @@
 import ExitModal from "@/components/modal/exit-modal";
 import NoEnoughHeartsModal from "@/components/modal/no-enough-hearts-modal";
+import PracticeModal from "@/components/modal/practice-modal";
 import React from "react";
 
 const LessonsLayout = ({ children }: { children: React.ReactNode }) => {
@@ -9,6 +10,7 @@ const LessonsLayout = ({ children }: { children: React.ReactNode }) => {
         {children}
         <ExitModal />
         <NoEnoughHeartsModal />
+        <PracticeModal />
       </div>
     </div>
   );
