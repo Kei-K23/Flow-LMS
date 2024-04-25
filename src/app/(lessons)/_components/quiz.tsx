@@ -1,6 +1,6 @@
 "use client";
 
-import { challengeOptions, challenges } from "@/db/schema";
+import { challengeOptions, challenges, userSubscriptions } from "@/db/schema";
 import React, { useState, useTransition } from "react";
 import Header from "./header";
 import QuestionBubble from "./question-bubble";
@@ -24,7 +24,11 @@ type QuizProps = {
     challengeOptions: (typeof challengeOptions.$inferSelect)[];
   })[];
   initialHeart: number;
-  userSubscriptions: any; // TODO actual type of subscription
+  userSubscriptions:
+    | (typeof userSubscriptions.$inferSelect & {
+        isActive: boolean;
+      })
+    | null;
 };
 
 const Quiz = ({

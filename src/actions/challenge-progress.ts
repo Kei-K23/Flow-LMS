@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { getUserProgress } from "@/db/queries";
+import { getUserProgress, getUserSubscription } from "@/db/queries";
 import { challengeProgress, challenges, userProgress } from "@/db/schema";
 import { auth } from "@clerk/nextjs";
 import { and, eq } from "drizzle-orm";
@@ -13,8 +13,7 @@ export const upsertChallengeProgress = async (challengeId: number) => {
     if (!userId) throw new Error("Unauthorized!")
 
     const currentUserProgress = await getUserProgress()
-
-    // TODO: check user subscription
+    const currentUserSubscription = await getUserSubscription()
 
     if (!currentUserProgress) throw new Error("User progress not found!")
 
@@ -34,9 +33,7 @@ export const upsertChallengeProgress = async (challengeId: number) => {
 
     const isPractice = !!existChallengeProgress;
 
-    // TODO: check user has subscription
-
-    if (currentUserProgress.hearts === 0 && !isPractice) {
+    if (currentUserProgress.hearts === 0 && !isPractice && !currentUserSubscription?.isActive) {
         return { error: "hearts" }
     }
 
@@ -82,6 +79,7 @@ export const reduceHeart = async (challengeId: number) => {
 
     const currentUserProgress = await getUserProgress()
 
+    const currentUserSubscription = await getUserSubscription()
 
     const challenge = await db.query.challenges.findFirst({
         where: eq(challenges.id, challengeId)
@@ -92,8 +90,6 @@ export const reduceHeart = async (challengeId: number) => {
     const lessonId = challenge.lessonId;
 
     if (!lessonId) throw new Error("Lesson not found!")
-
-    // TODO: check user subscription
 
     if (!currentUserProgress) throw new Error("User progress not found!")
 
@@ -107,7 +103,9 @@ export const reduceHeart = async (challengeId: number) => {
         return { error: 'practice' }
     }
 
-    // TODO: handle user subscription
+    if (currentUserSubscription?.isActive) {
+        return { error: 'subscription' }
+    }
 
     if (currentUserProgress.hearts === 0) {
         return { error: 'hearts' }

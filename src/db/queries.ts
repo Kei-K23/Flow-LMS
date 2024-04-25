@@ -1,10 +1,9 @@
 import { cache } from "react";
 import { db } from ".";
-import { challengeProgress, challenges, courses, lessons, units, userProgress, userSubscriptions } from "./schema";
+import { challengeProgress, courses, lessons, units, userProgress, userSubscriptions } from "./schema";
 import { auth } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
-
-const DAY_IN_MS = 86_400_000;
+import { DAY_IN_MS } from "../../constant";
 
 export const getCourses = cache(async () => {
     return await db.select().from(courses)
@@ -12,7 +11,17 @@ export const getCourses = cache(async () => {
 
 export const getCourseById = cache(async (id: number) => {
     return await db.query.courses.findFirst({
-        where: eq(courses.id, id)
+        where: eq(courses.id, id),
+        with: {
+            units: {
+                orderBy: (units, { asc }) => [asc(units.order)],
+                with: {
+                    lessons: {
+                        orderBy: (lessons, { asc }) => [asc(lessons.order)],
+                    }
+                }
+            }
+        }
     })
 });
 
@@ -24,13 +33,14 @@ export const getUnits = cache(async () => {
         return [];
     }
 
-    // TODO: Need to check orderby for lessons
     const data = await db.query.units.findMany({
         where: eq(units.courseId, userProgress.activeCourseId),
         with: {
             lessons: {
+                orderBy: (lessons, { asc }) => [asc(lessons.order)],
                 with: {
                     challenges: {
+                        orderBy: (challenges, { asc }) => [asc(challenges.order)],
                         with: {
                             challengeProgress: {
                                 where: eq(challengeProgress.userId, userId)
