@@ -1,5 +1,5 @@
 import { db } from "@/db"
-import { courses } from "@/db/schema";
+import { units } from "@/db/schema";
 import { isAdmin } from "@/lib/isAdmin";
 import { NextResponse } from "next/server";
 
@@ -8,7 +8,7 @@ export const GET = async () => {
         return new NextResponse("Unauthorized", { status: 401 })
     }
 
-    const data = await db.query.courses.findMany();
+    const data = await db.query.units.findMany();
 
     return NextResponse.json(data);
 }
@@ -20,7 +20,7 @@ export const POST = async (req: Request) => {
 
     const body = await req.json();
 
-    const data = await db.insert(courses).values({
+    const data = await db.insert(units).values({
         ...body
     }).returning();
 
