@@ -13,6 +13,12 @@ import EditCourse from "./course/edit";
 import EditUnit from "./unit/edit";
 import EditLesson from "./lesson/edit";
 import CreateLesson from "./lesson/create";
+import ChallengeList from "./challenge/list";
+import CreateChallenge from "./challenge/create";
+import EditChallenge from "./challenge/edit";
+import ChallengeOptionsList from "./challenge-options/list";
+import CreateChallengeOption from "./challenge-options/create";
+import EditChallengeOptions from "./challenge-options/edit";
 
 const dataProvider = simpleRestProvider("/api");
 
@@ -38,6 +44,20 @@ const App = () => {
         list={LessonList}
         create={CreateLesson}
         edit={EditLesson}
+        recordRepresentation="title"
+      />
+      <Resource
+        name="challenges"
+        list={ChallengeList}
+        create={CreateChallenge}
+        edit={EditChallenge}
+        recordRepresentation="title"
+      />
+      <Resource
+        name="challenges-options"
+        list={ChallengeOptionsList}
+        create={CreateChallengeOption}
+        edit={EditChallengeOptions}
         recordRepresentation="title"
       />
     </Admin>
