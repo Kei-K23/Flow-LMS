@@ -8,26 +8,17 @@ import {
   TextInput,
 } from "react-admin";
 
-const EditUnit = () => {
+const EditLesson = () => {
   return (
     <Edit>
       <SimpleForm>
         <TextInput source="id" label="Id" validate={[required()]} />
         <TextInput source="title" label="Title" validate={[required()]} />
-        <TextInput
-          source="description"
-          label="Description"
-          validate={[required()]}
-        />
-        <ReferenceInput
-          source="courseId"
-          reference="courses"
-          label="Course Id"
-        />
+        <ReferenceInput source="unitId" reference="units" label="Unit Id" />
         <NumberInput source="order" label="Order" validate={[required()]} />
       </SimpleForm>
     </Edit>
   );
 };
 
-export default EditUnit;
+export default EditLesson;
