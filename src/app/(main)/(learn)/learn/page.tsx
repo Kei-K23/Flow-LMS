@@ -13,6 +13,7 @@ import { redirect } from "next/navigation";
 import React from "react";
 import Unit from "../_components/unit";
 import { lessons, units as unitsSchema } from "@/db/schema";
+import Promo from "@/components/promo";
 
 const LearnPage = async () => {
   const userProgressData = getUserProgress();
@@ -35,6 +36,8 @@ const LearnPage = async () => {
     userSubscriptionData,
   ]);
 
+  const isPro = !!userSubscription?.isActive;
+
   if (
     !userProgress ||
     !userProgress.activeCourseId ||
@@ -50,8 +53,9 @@ const LearnPage = async () => {
           activeCourse={userProgress.activeCourse}
           hearts={userProgress.hearts}
           points={userProgress.points}
-          hasActiveSubscription={!!userSubscription?.isActive}
+          hasActiveSubscription={isPro}
         />
+        {!isPro && <Promo />}
       </StickyWrapper>
       <FeedWrapper>
         <Header title={userProgress.activeCourse?.title} />

@@ -1,4 +1,5 @@
 import FeedWrapper from "@/components/feed-wrapper";
+import Promo from "@/components/promo";
 import StickyWrapper from "@/components/sticky-wrapper";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
@@ -35,6 +36,7 @@ const LeaderBoardPage = async () => {
           hearts={userProgress.hearts}
           points={userProgress.points}
         />
+        {!isProMember && <Promo />}
       </StickyWrapper>
       <FeedWrapper>
         <div className="w-full flex flex-col items-center">
@@ -43,7 +45,6 @@ const LeaderBoardPage = async () => {
             alt="Leaderboard"
             height={90}
             width={90}
-            className=""
           />
           <h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
             Leaderboard
