@@ -1,5 +1,6 @@
 import FeedWrapper from "@/components/feed-wrapper";
 import Promo from "@/components/promo";
+import QuestsIndicator from "@/components/quests-indicator";
 import StickyWrapper from "@/components/sticky-wrapper";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
@@ -37,6 +38,7 @@ const LeaderBoardPage = async () => {
           points={userProgress.points}
         />
         {!isProMember && <Promo />}
+        <QuestsIndicator points={userProgress.points} />
       </StickyWrapper>
       <FeedWrapper>
         <div className="w-full flex flex-col items-center">

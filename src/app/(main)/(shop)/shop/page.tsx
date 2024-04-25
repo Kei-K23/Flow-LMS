@@ -6,6 +6,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import React from "react";
 import Items from "../_componentts/items";
+import QuestsIndicator from "@/components/quests-indicator";
 
 const ShopPage = async () => {
   const userProgressData = getUserProgress();
@@ -28,6 +29,7 @@ const ShopPage = async () => {
           hearts={userProgress.hearts}
           points={userProgress.points}
         />
+        <QuestsIndicator points={userProgress.points} />
       </StickyWrapper>
       <FeedWrapper>
         <div className="w-full flex flex-col items-center">
