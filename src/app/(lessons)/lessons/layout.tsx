@@ -1,7 +1,12 @@
 import ExitModal from "@/components/modal/exit-modal";
 import NoEnoughHeartsModal from "@/components/modal/no-enough-hearts-modal";
 import PracticeModal from "@/components/modal/practice-modal";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Lessons",
+};
 
 const LessonsLayout = ({ children }: { children: React.ReactNode }) => {
   return (

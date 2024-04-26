@@ -6,9 +6,12 @@ import { getUserProgress, getUserSubscription } from "@/db/queries";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import React from "react";
-import { quests } from "../../../../../constant";
-import { Progress } from "@/components/ui/progress";
 import Quests from "@/components/quests";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Quests",
+};
 
 const QuestsPage = async () => {
   const userProgressData = getUserProgress();

@@ -6,7 +6,6 @@ import {
   SignedIn,
   SignedOut,
   SignInButton,
-  UserButton,
 } from "@clerk/nextjs";
 import { Loader, LogInIcon } from "lucide-react";
 import Image from "next/image";

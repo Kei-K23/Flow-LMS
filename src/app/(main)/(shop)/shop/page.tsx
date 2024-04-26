@@ -7,6 +7,11 @@ import { redirect } from "next/navigation";
 import React from "react";
 import Items from "../_componentts/items";
 import QuestsIndicator from "@/components/quests-indicator";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Shop",
+};
 
 const ShopPage = async () => {
   const userProgressData = getUserProgress();

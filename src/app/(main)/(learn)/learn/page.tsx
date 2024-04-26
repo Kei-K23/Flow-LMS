@@ -15,6 +15,11 @@ import Unit from "../_components/unit";
 import { lessons, units as unitsSchema } from "@/db/schema";
 import Promo from "@/components/promo";
 import QuestsIndicator from "@/components/quests-indicator";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Learn",
+};
 
 const LearnPage = async () => {
   const userProgressData = getUserProgress();
