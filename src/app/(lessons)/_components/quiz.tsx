@@ -77,6 +77,7 @@ const Quiz = ({
         challenges={challenges}
         hearts={hearts}
         lessonId={lessonId}
+        userSubscription={userSubscriptions}
       />
     );
   }

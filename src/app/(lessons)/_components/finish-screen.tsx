@@ -1,4 +1,4 @@
-import { challengeOptions, challenges } from "@/db/schema";
+import { challengeOptions, challenges, userSubscriptions } from "@/db/schema";
 import Image from "next/image";
 import React, { useEffect } from "react";
 import ResultCard from "./result-card";
@@ -14,12 +14,24 @@ type FinishScreenProps = {
   })[];
   hearts: number;
   lessonId: number;
+  userSubscription:
+    | (typeof userSubscriptions.$inferSelect & {
+        isActive: boolean;
+      })
+    | null;
 };
 
-const FinishScreen = ({ challenges, hearts, lessonId }: FinishScreenProps) => {
+const FinishScreen = ({
+  challenges,
+  hearts,
+  lessonId,
+  userSubscription,
+}: FinishScreenProps) => {
   const router = useRouter();
   const { width, height } = useWindowSize();
   const [finishAudio, _, control] = useAudio({ src: "finish.mp3" });
+  const isProMember = !!userSubscription?.isActive;
+
   useEffect(() => {
     control.play();
   }, []);
@@ -53,7 +65,11 @@ const FinishScreen = ({ challenges, hearts, lessonId }: FinishScreenProps) => {
         </h1>
         <div className="flex items-center gap-x-4 w-full">
           <ResultCard variant="points" values={challenges.length * 10} />
-          <ResultCard variant="hearts" values={hearts} />
+          <ResultCard
+            variant="hearts"
+            values={hearts}
+            isProMember={isProMember}
+          />
         </div>
       </div>
       <Footer

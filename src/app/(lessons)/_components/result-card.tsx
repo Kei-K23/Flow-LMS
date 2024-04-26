@@ -1,13 +1,15 @@
 import { cn } from "@/lib/utils";
+import { InfinityIcon } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
 type ResultCardProps = {
   variant: "points" | "hearts";
   values: number;
+  isProMember?: boolean;
 };
 
-const ResultCard = ({ values, variant }: ResultCardProps) => {
+const ResultCard = ({ values, variant, isProMember }: ResultCardProps) => {
   const imgSrc = variant === "points" ? "/points.svg" : "heart.svg";
 
   return (
@@ -25,7 +27,11 @@ const ResultCard = ({ values, variant }: ResultCardProps) => {
           variant === "hearts" && "bg-rose-600"
         )}
       >
-        {variant === "hearts" ? "Hearts Left" : "Total XP"}
+        {variant === "hearts" && isProMember
+          ? "Hearts"
+          : variant === "hearts"
+          ? "Hearts Left"
+          : "Total XP"}
       </div>
       <div
         className={cn(
@@ -34,14 +40,29 @@ const ResultCard = ({ values, variant }: ResultCardProps) => {
           variant === "hearts" && "text-rose-500"
         )}
       >
-        <Image
-          src={imgSrc}
-          alt={variant}
-          width={30}
-          height={30}
-          className="mr-1.5"
-        />
-        {values}
+        {variant === "hearts" && isProMember ? (
+          <>
+            <Image
+              src={imgSrc}
+              alt={variant}
+              width={30}
+              height={30}
+              className="mr-1.5"
+            />
+            <InfinityIcon className="stroke-[3]" width={23} height={23} />
+          </>
+        ) : (
+          <>
+            <Image
+              src={imgSrc}
+              alt={variant}
+              width={30}
+              height={30}
+              className="mr-1.5"
+            />
+            {values}
+          </>
+        )}
       </div>
     </div>
   );

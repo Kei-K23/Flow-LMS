@@ -10,6 +10,7 @@ import {
   getUserProgress,
   getUserSubscription,
 } from "@/db/queries";
+import { isAdmin } from "@/lib/isAdmin";
 import { Metadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -74,6 +75,9 @@ const LeaderBoardPage = async () => {
               </Avatar>
               <p className="font-bold text-neutral-800 flex-1">
                 {userProgress.userName}
+                <span className="text-rose-500 text-xs ml-2">
+                  {isAdmin() && "Admin"}
+                </span>
               </p>
               <div className="flex items-center gap-x-1">
                 <Image
