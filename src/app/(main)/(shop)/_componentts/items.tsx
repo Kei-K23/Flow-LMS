@@ -19,7 +19,13 @@ const Items = ({ hearts, points, hasActiveSubscription }: ItemsProps) => {
   const [pending, startTransition] = useTransition();
 
   const onRefillHeart = () => {
-    if (pending || hearts === 5 || points < POINT_TO_FILL) return;
+    if (
+      hasActiveSubscription ||
+      pending ||
+      hearts === 5 ||
+      points < POINT_TO_FILL
+    )
+      return;
 
     startTransition(() => {
       refillHeart().catch(() => toast.error("Something went wrong"));
