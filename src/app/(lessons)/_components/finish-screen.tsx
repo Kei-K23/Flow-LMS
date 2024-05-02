@@ -29,7 +29,7 @@ const FinishScreen = ({
 }: FinishScreenProps) => {
   const router = useRouter();
   const { width, height } = useWindowSize();
-  const [finishAudio, _, control] = useAudio({ src: "finish.mp3" });
+  const [finishAudio, _, control] = useAudio({ src: "/finish.mp3" });
   const isProMember = !!userSubscription?.isActive;
 
   useEffect(() => {

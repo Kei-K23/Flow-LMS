@@ -42,7 +42,7 @@ const Quiz = ({
     src: "/correct.wav",
   });
   const [incorrectAudio, _incorrect, incorrectControl] = useAudio({
-    src: "incorrect.wav",
+    src: "/incorrect.wav",
   });
   const [pending, startTransition] = useTransition();
   const [hearts, setHearts] = useState(initialHeart);
